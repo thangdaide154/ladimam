@@ -1260,10 +1260,11 @@
   <script>
     // =========================================================================
     // CẤU HÌNH KẾT NỐI GOOGLE SHEET (DÀNH CHO CHỦ SHOP)
-    // Dán link Web App triển khai từ Google Apps Script của bạn vào biến dưới đây:
-    // Xem hướng dẫn 1 phút tại file: huong_dan_ket_noi_google_sheet.md
     // =========================================================================
-    const GOOGLE_SHEET_WEBAPP_URL = "DÁN_LINK_APPS_SCRIPT_VÀO_ĐÂY";
+    const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzG9uRVSe6FlVsCiqktNniV_-95OK07HxM4MOotVY96b4jqlGnBGvcT4e3ySc6hUMkKAw/exec";
+    try {
+      localStorage.setItem('rowanto_gsheet_url', GOOGLE_SHEET_WEBAPP_URL);
+    } catch (e) {}
 
     // Tự động nhận diện Địa Chỉ IP của khách truy cập để lưu vào đơn hàng
     let clientIP = 'Đang lấy IP...';
