@@ -7,7 +7,7 @@
  */
 
 // ===================================================================
-// 1. CẤU HÌNH NHÓM TELEGRAM (KHUYÊN DÙNG - 100% MIỄN PHÍ & CHUÔNG BÁO TỨC THÌ)
+// 1. CẤU HÌNH NHÓM TELEGRAM (ĐÃ CẤU HÌNH SẴN CHO BẠN)
 // ===================================================================
 var TELEGRAM_BOT_TOKEN = "8947219302:AAFAFKlSny3vr99dtVGKUlE5iu60eplNliA"; // Bot Ladidz (@Ladidz_bot)
 var TELEGRAM_CHAT_ID = "-5440398762"; // Nhóm "Test ladi"
@@ -16,6 +16,27 @@ var TELEGRAM_CHAT_ID = "-5440398762"; // Nhóm "Test ladi"
 // 2. CẤU HÌNH WEBHOOK NHÓM ZALO (TÙY CHỌN NẾU CÓ)
 // ===================================================================
 var ZALO_WEBHOOK_URL = ""; 
+
+/**
+ * ===================================================================
+ * ⭐️ HÀM TEST VÀ CẤP QUYỀN TRUY CẬP (BẮT BUỘC CHẠY 1 LẦN TRÊN APPS SCRIPT)
+ * 1. Chọn hàm 'testTelegram' ở thanh dropdown bên trên.
+ * 2. Bấm nút 'Chạy' (Run).
+ * 3. Bấm "Xem lại quyền" -> Chọn tài khoản Google -> Nâng cao -> Đi tới (không an toàn) -> Cho phép.
+ * ===================================================================
+ */
+function testTelegram() {
+  var testOrder = {
+    name: "Khách Mua Thử Nghiệm",
+    phone: "0988888888",
+    product: "Mâm xoay 80cm - 1.250.000đ",
+    address: "Hà Nội",
+    note: "Đơn test thử nghiệm kết nối",
+    ip: "127.0.0.1",
+    time: Utilities.formatDate(new Date(), "GMT+7", "dd/MM/yyyy HH:mm:ss")
+  };
+  sendTelegramNotification(testOrder);
+}
 
 function doPost(e) {
   return processOrder(e);
@@ -125,23 +146,23 @@ function sendTelegramNotification(order) {
     if (!token || !chatId) return;
 
     var rawPhone = (order.phone || "").replace(/'/g, "");
-    var textMessage = "🔔 *BÁO ĐƠN MÂM XOAY ROWANTO MỚI!*\n" +
+    var textMessage = "🔔 <b>BÁO ĐƠN MÂM XOAY ROWANTO MỚI!</b>\n" +
                       "━━━━━━━━━━━━━━━━━━━━\n" +
-                      "👤 *Khách hàng:* " + order.name + "\n" +
-                      "📞 *Số điện thoại:* " + rawPhone + "\n" +
-                      "📦 *Sản phẩm:* " + order.product + "\n" +
-                      "🏠 *Địa chỉ:* " + (order.address || "Chưa cung cấp") + "\n" +
-                      "📝 *Ghi chú:* " + (order.note || "Không có") + "\n" +
-                      "🌐 *Địa chỉ IP:* " + order.ip + "\n" +
-                      "⏰ *Thời gian đặt:* " + order.time + "\n" +
+                      "👤 <b>Khách hàng:</b> " + escapeHtml(order.name) + "\n" +
+                      "📞 <b>Số điện thoại:</b> " + escapeHtml(rawPhone) + "\n" +
+                      "📦 <b>Sản phẩm:</b> " + escapeHtml(order.product) + "\n" +
+                      "🏠 <b>Địa chỉ:</b> " + escapeHtml(order.address || "Chưa cung cấp") + "\n" +
+                      "📝 <b>Ghi chú:</b> " + escapeHtml(order.note || "Không có") + "\n" +
+                      "🌐 <b>Địa chỉ IP:</b> " + escapeHtml(order.ip) + "\n" +
+                      "⏰ <b>Thời gian đặt:</b> " + escapeHtml(order.time) + "\n" +
                       "━━━━━━━━━━━━━━━━━━━━\n" +
-                      "⚡ *Hãy gọi xác nhận và chốt đơn ngay!*";
+                      "⚡ <i>Hãy gọi xác nhận và chốt đơn ngay!</i>";
 
     var url = "https://api.telegram.org/bot" + token + "/sendMessage";
     var payload = {
       chat_id: chatId,
       text: textMessage,
-      parse_mode: "Markdown"
+      parse_mode: "HTML"
     };
 
     var options = {
@@ -151,10 +172,19 @@ function sendTelegramNotification(order) {
       muteHttpExceptions: true
     };
 
-    UrlFetchApp.fetch(url, options);
+    var res = UrlFetchApp.fetch(url, options);
+    Logger.log("Telegram Response: " + res.getContentText());
   } catch (err) {
     Logger.log("Lỗi gửi Telegram: " + err);
   }
+}
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 /**
