@@ -20,7 +20,7 @@
     // =========================================================================
     // CẤU HÌNH MÃ META PIXEL (FACEBOOK ADS CONVERSION TRACKING)
     // =========================================================================
-    const DEFAULT_FB_PIXEL_ID = ""; // Gắn mã Pixel ID thật của bạn tại đây để áp dụng cho toàn bộ khách hàng
+    const DEFAULT_FB_PIXEL_ID = "5615210638706443"; // Mã Pixel ID chính thức của Rowanto
     const currentPixelId = (localStorage.getItem('rowanto_fb_pixel_id') || DEFAULT_FB_PIXEL_ID).trim();
 
     // Tự động kích hoạt Pixel ID
@@ -34,6 +34,10 @@
       } catch (e) {}
     })();
   </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=5615210638706443&ev=PageView&noscript=1"/>
+  </noscript>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
