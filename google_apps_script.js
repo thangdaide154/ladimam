@@ -1,14 +1,19 @@
 /**
  * ===================================================================
  * GOOGLE APPS SCRIPT - TỰ ĐỘNG ĐỔ ĐƠN VÀO SHEET "mamtron"
- * & BẮN THÔNG BÁO TỨC THÌ VỀ NHÓM ZALO
+ * & BẮN THÔNG BÁO TỨC THÌ VỀ NHÓM TELEGRAM / ZALO
  * Bảng gồm 7 cột: Thời Gian Đặt | Họ Tên | SĐT | Địa Chỉ | Sản Phẩm | Ghi Chú | Địa Chỉ IP
  * ===================================================================
  */
 
 // ===================================================================
-// CẤU HÌNH WEBHOOK GỬI THÔNG BÁO VỀ NHÓM ZALO (DÀNH CHO CHỦ SHOP)
-// Dán link Webhook bot nhóm Zalo của bạn vào giữa 2 dấu ngoặc kép dưới đây:
+// 1. CẤU HÌNH NHÓM TELEGRAM (KHUYÊN DÙNG - 100% MIỄN PHÍ & CHUÔNG BÁO TỨC THÌ)
+// ===================================================================
+var TELEGRAM_BOT_TOKEN = ""; // Dán mã Bot Token từ @BotFather vào đây (VD: "7123456789:AAH...")
+var TELEGRAM_CHAT_ID = "";   // Dán Chat ID của Nhóm Telegram vào đây (VD: "-1001234567890")
+
+// ===================================================================
+// 2. CẤU HÌNH WEBHOOK NHÓM ZALO (TÙY CHỌN NẾU CÓ)
 // ===================================================================
 var ZALO_WEBHOOK_URL = ""; 
 
@@ -76,18 +81,23 @@ function processOrder(e) {
     // 4. Ghi trực tiếp vào sheet "mamtron" (7 cột)
     sheet.appendRow([time, name, phone, address, product, note, ip]);
 
-    // 5. Tự động gửi thông báo tức thì về Nhóm Zalo (nếu đã cài link Webhook)
+    var orderData = {
+      time: time,
+      name: name,
+      phone: phone,
+      address: address,
+      product: product,
+      note: note,
+      ip: ip
+    };
+
+    // 5. Tự động gửi thông báo tức thì về Nhóm Telegram
+    sendTelegramNotification(orderData);
+
+    // 6. Tự động gửi thông báo về Nhóm Zalo (nếu có cài Webhook)
     var targetZaloWebhook = (p.zalo_webhook || ZALO_WEBHOOK_URL || "").trim();
     if (targetZaloWebhook && targetZaloWebhook.startsWith("http")) {
-      sendZaloNotification({
-        time: time,
-        name: name,
-        phone: phone,
-        address: address,
-        product: product,
-        note: note,
-        ip: ip
-      }, targetZaloWebhook);
+      sendZaloNotification(orderData, targetZaloWebhook);
     }
     
     return ContentService.createTextOutput(JSON.stringify({
@@ -102,6 +112,48 @@ function processOrder(e) {
     })).setMimeType(ContentService.MimeType.JSON);
   } finally {
     lock.releaseLock();
+  }
+}
+
+/**
+ * Hàm gửi tin nhắn thông báo đơn hàng tức thì vào Nhóm Telegram
+ */
+function sendTelegramNotification(order) {
+  try {
+    var token = (TELEGRAM_BOT_TOKEN || "").trim();
+    var chatId = (TELEGRAM_CHAT_ID || "").trim();
+    if (!token || !chatId) return;
+
+    var rawPhone = (order.phone || "").replace(/'/g, "");
+    var textMessage = "🔔 *BÁO ĐƠN MÂM XOAY ROWANTO MỚI!*\n" +
+                      "━━━━━━━━━━━━━━━━━━━━\n" +
+                      "👤 *Khách hàng:* " + order.name + "\n" +
+                      "📞 *Số điện thoại:* " + rawPhone + "\n" +
+                      "📦 *Sản phẩm:* " + order.product + "\n" +
+                      "🏠 *Địa chỉ:* " + (order.address || "Chưa cung cấp") + "\n" +
+                      "📝 *Ghi chú:* " + (order.note || "Không có") + "\n" +
+                      "🌐 *Địa chỉ IP:* " + order.ip + "\n" +
+                      "⏰ *Thời gian đặt:* " + order.time + "\n" +
+                      "━━━━━━━━━━━━━━━━━━━━\n" +
+                      "⚡ *Hãy gọi xác nhận và chốt đơn ngay!*";
+
+    var url = "https://api.telegram.org/bot" + token + "/sendMessage";
+    var payload = {
+      chat_id: chatId,
+      text: textMessage,
+      parse_mode: "Markdown"
+    };
+
+    var options = {
+      method: "post",
+      contentType: "application/json",
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    };
+
+    UrlFetchApp.fetch(url, options);
+  } catch (err) {
+    Logger.log("Lỗi gửi Telegram: " + err);
   }
 }
 
