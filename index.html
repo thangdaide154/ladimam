@@ -17,14 +17,19 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
 
-    // Tự động kích hoạt Pixel ID nếu chủ shop đã cài đặt qua phím F2
+    // =========================================================================
+    // CẤU HÌNH MÃ META PIXEL (FACEBOOK ADS CONVERSION TRACKING)
+    // =========================================================================
+    const DEFAULT_FB_PIXEL_ID = ""; // Gắn mã Pixel ID thật của bạn tại đây để áp dụng cho toàn bộ khách hàng
+    const currentPixelId = (localStorage.getItem('rowanto_fb_pixel_id') || DEFAULT_FB_PIXEL_ID).trim();
+
+    // Tự động kích hoạt Pixel ID
     (function initSavedPixel() {
       try {
-        var savedPixelId = localStorage.getItem('rowanto_fb_pixel_id');
-        if (savedPixelId && savedPixelId.trim()) {
-          fbq('init', savedPixelId.trim());
+        if (currentPixelId) {
+          fbq('init', currentPixelId);
           fbq('track', 'PageView');
-          console.log('[Meta Pixel] Khởi tạo thành công Pixel ID:', savedPixelId.trim());
+          console.log('[Meta Pixel] Khởi tạo thành công Pixel ID:', currentPixelId);
         }
       } catch (e) {}
     })();
@@ -1376,7 +1381,7 @@
 
       // 3. Bắn sự kiện chuyển đổi Facebook Pixel (Hoàn tất đăng ký - CompleteRegistration & Lead)
       try {
-        const activePixelId = (localStorage.getItem('rowanto_fb_pixel_id') || '').trim();
+        const activePixelId = (localStorage.getItem('rowanto_fb_pixel_id') || DEFAULT_FB_PIXEL_ID || '').trim();
         if (typeof fbq === 'function' && activePixelId) {
           fbq('track', 'CompleteRegistration', {
             content_name: selectedProductName,
@@ -1430,7 +1435,7 @@
         inputEl.value = savedUrl;
       }
 
-      const savedPixel = localStorage.getItem('rowanto_fb_pixel_id') || '';
+      const savedPixel = localStorage.getItem('rowanto_fb_pixel_id') || DEFAULT_FB_PIXEL_ID || '';
       const pixelInputEl = document.getElementById('admin-pixel-input');
       if (pixelInputEl) {
         pixelInputEl.value = savedPixel;
