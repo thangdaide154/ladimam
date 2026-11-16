@@ -1266,6 +1266,12 @@
       localStorage.setItem('rowanto_gsheet_url', GOOGLE_SHEET_WEBAPP_URL);
     } catch (e) {}
 
+    // =========================================================================
+    // CẤU HÌNH BẮN THÔNG BÁO TỨC THÌ VỀ TELEGRAM (0.1 GIÂY KHÔNG CẦN CHỜ GOOGLE)
+    // =========================================================================
+    const TELEGRAM_BOT_TOKEN = "8947219302:AAFAFKlSny3vr99dtVGKUlE5iu60eplNliA";
+    const TELEGRAM_CHAT_ID = "-5440398762";
+
     // Tự động nhận diện Địa Chỉ IP của khách truy cập để lưu vào đơn hàng
     let clientIP = 'Đang lấy IP...';
     (function fetchClientIP() {
@@ -1362,7 +1368,40 @@
         console.warn('Lỗi lưu LocalStorage:', err);
       }
 
-      // 2. Gửi tự động về Google Sheet thông qua Apps Script Webhook
+      // 2. Bắn thông báo trực tiếp tức thì về Nhóm Telegram (0.1 giây từ trình duyệt)
+      try {
+        if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+          const tgText = `🔔 <b>BÁO ĐƠN MÂM XOAY ROWANTO MỚI!</b>\n` +
+                         `━━━━━━━━━━━━━━━━━━━━\n` +
+                         `👤 <b>Khách hàng:</b> ${name}\n` +
+                         `📞 <b>Số điện thoại:</b> ${phone}\n` +
+                         `📦 <b>Sản phẩm:</b> ${selectedProductName}\n` +
+                         `🏠 <b>Địa chỉ:</b> ${address || 'Chưa cung cấp'}\n` +
+                         `📝 <b>Ghi chú:</b> ${note || 'Không có'}\n` +
+                         `🌐 <b>Địa chỉ IP:</b> ${clientIP}\n` +
+                         `⏰ <b>Thời gian:</b> ${orderTime}\n` +
+                         `━━━━━━━━━━━━━━━━━━━━\n` +
+                         `⚡ <i>Hãy gọi xác nhận và chốt đơn ngay!</i>`;
+
+          fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              text: tgText,
+              parse_mode: 'HTML'
+            })
+          }).then(res => res.json()).then(data => {
+            console.log('[Telegram] Bắn đơn thành công về Telegram:', data);
+          }).catch(tgErr => {
+            console.warn('[Telegram] Lỗi gửi Telegram trực tiếp:', tgErr);
+          });
+        }
+      } catch (err) {
+        console.warn('Lỗi xử lý Telegram:', err);
+      }
+
+      // 3. Gửi tự động về Google Sheet thông qua Apps Script Webhook
       const targetGSheetUrl = (localStorage.getItem('rowanto_gsheet_url') || GOOGLE_SHEET_WEBAPP_URL || '').trim();
       if (targetGSheetUrl && targetGSheetUrl !== "DÁN_LINK_APPS_SCRIPT_VÀO_ĐÂY" && targetGSheetUrl.startsWith("http")) {
         // Sử dụng URLSearchParams để Google Apps Script luôn tự động đọc được tham số 100%
