@@ -9,8 +9,8 @@
 // ===================================================================
 // 1. CẤU HÌNH NHÓM TELEGRAM (KHUYÊN DÙNG - 100% MIỄN PHÍ & CHUÔNG BÁO TỨC THÌ)
 // ===================================================================
-var TELEGRAM_BOT_TOKEN = ""; // Dán mã Bot Token từ @BotFather vào đây (VD: "7123456789:AAH...")
-var TELEGRAM_CHAT_ID = "";   // Dán Chat ID của Nhóm Telegram vào đây (VD: "-1001234567890")
+var TELEGRAM_BOT_TOKEN = "8947219302:AAFAFKlSny3vr99dtVGKUlE5iu60eplNliA"; // Bot Ladidz (@Ladidz_bot)
+var TELEGRAM_CHAT_ID = "-5440398762"; // Nhóm "Test ladi"
 
 // ===================================================================
 // 2. CẤU HÌNH WEBHOOK NHÓM ZALO (TÙY CHỌN NẾU CÓ)
