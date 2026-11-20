@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>{{PRODUCT_NAME}} - Ưu Đãi Flash Sale Độc Quyền</title>
+  <meta name="description" content="{{PRODUCT_SLOGAN}}">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .flash-sale-badge { animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  </style>
+
+  <!-- Facebook Pixel Code (Mặc Định) -->
+  <script>
+    const DEFAULT_FB_PIXEL_ID = '{{FB_PIXEL_ID}}';
+    if (DEFAULT_FB_PIXEL_ID && DEFAULT_FB_PIXEL_ID !== '{{FB_PIXEL_ID}}') {
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', DEFAULT_FB_PIXEL_ID);
+      fbq('track', 'PageView');
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-red-500 selection:text-white pb-24 md:pb-0">
+
+  <!-- TOP BAR: THÔNG BÁO FLASH SALE -->
+  <header class="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white py-2 px-3 text-center text-xs md:text-sm font-bold shadow-sm sticky top-0 z-40">
+    <div class="max-w-4xl mx-auto flex items-center justify-center gap-2">
+      <span class="flash-sale-badge bg-amber-400 text-red-950 text-[10px] uppercase font-black px-2 py-0.5 rounded-full">⚡ Flash Sale</span>
+      <span>Ưu Đãi Giảm Tới 45% Trong Ngày Hôm Nay!</span>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto bg-white shadow-lg min-h-screen">
+    <!-- HERO SECTION -->
+    <section class="p-4 md:p-6 text-center space-y-3">
+      <span class="inline-block bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+        ★ Hàng Chính Hãng Cao Cấp
+      </span>
+      <h1 class="text-2xl md:text-4xl font-black text-slate-900 leading-tight">
+        {{PRODUCT_NAME}}
+      </h1>
+      <p class="text-xs md:text-sm text-slate-600 max-w-xl mx-auto">
+        {{PRODUCT_SLOGAN}}
+      </p>
+
+      <!-- Ảnh sản phẩm chính -->
+      <div class="rounded-2xl overflow-hidden shadow-md border border-slate-200 mt-4">
+        <img src="images/hero.jpg" alt="{{PRODUCT_NAME}}" class="w-full aspect-square object-cover" loading="eager">
+      </div>
+    </section>
+
+    <!-- SECTION ĐẶT HÀNG NHANH -->
+    <section id="order-section" class="p-4 md:p-6 bg-slate-50 border-t border-slate-200">
+      <div class="bg-white rounded-2xl shadow-md border border-red-200 p-5 md:p-6">
+        <div class="text-center mb-5">
+          <span class="text-red-600 font-bold uppercase tracking-wider text-xs">Điền Thông Tin Nhận Hàng</span>
+          <h2 class="text-xl md:text-2xl font-black text-slate-900 mt-1">ĐẶT HÀNG NHẬN ƯU ĐÃI NGAY</h2>
+          <p class="text-xs text-slate-500 mt-1">Kiểm tra hàng trước khi thanh toán • Miễn phí vận chuyển toàn quốc</p>
+        </div>
+
+        <form id="purchase-form" onsubmit="handleOrderSubmit(event)" class="space-y-4">
+          <!-- Chọn Size / Phân loại -->
+          <div>
+            <label class="block font-bold text-slate-900 text-xs md:text-sm mb-2">1. Chọn Phân Loại Sản Phẩm:</label>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <label class="border-2 border-slate-200 hover:border-red-500 rounded-xl p-3 cursor-pointer flex flex-col justify-between transition has-[:checked]:border-red-600 has-[:checked]:bg-red-50/40">
+                <input type="radio" name="product_size" value="BAN_CHAY" checked class="accent-red-600 mb-1">
+                <span class="font-bold text-slate-900">Bản Tiêu Chuẩn</span>
+                <span class="text-red-600 font-black mt-1">990.000đ</span>
+              </label>
+              <label class="border-2 border-slate-200 hover:border-red-500 rounded-xl p-3 cursor-pointer flex flex-col justify-between transition has-[:checked]:border-red-600 has-[:checked]:bg-red-50/40">
+                <input type="radio" name="product_size" value="CAO_CAP" class="accent-red-600 mb-1">
+                <span class="font-bold text-slate-900">Bản Cao Cấp</span>
+                <span class="text-red-600 font-black mt-1">1.290.000đ</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Thông tin khách hàng -->
+          <div>
+            <label for="cust-name" class="block font-bold text-slate-900 text-xs md:text-sm mb-1">2. Họ và tên của bạn:</label>
+            <input type="text" id="cust-name" required placeholder="Ví dụ: Nguyễn Văn A" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+
+          <div>
+            <label for="cust-phone" class="block font-bold text-slate-900 text-xs md:text-sm mb-1">3. Số điện thoại nhận hàng:</label>
+            <input type="tel" id="cust-phone" required pattern="[0-9]{9,11}" placeholder="Ví dụ: 0988123456" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+
+          <div>
+            <label for="cust-address" class="block font-bold text-slate-900 text-xs md:text-sm mb-1">4. Địa chỉ giao nhận hàng:</label>
+            <input type="text" id="cust-address" required placeholder="Số nhà, tên đường, xã/phường, quận/huyện, tỉnh/TP" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+
+          <div>
+            <label for="cust-note" class="block font-semibold text-slate-700 text-xs mb-1">Ghi chú thêm (không bắt buộc):</label>
+            <input type="text" id="cust-note" placeholder="Ví dụ: Giao vào giờ hành chính, gọi trước khi giao..." class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+
+          <!-- Nút Đặt Hàng -->
+          <button type="submit" id="btn-submit-order" class="w-full py-4 rounded-xl font-black text-white text-base md:text-lg bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-500/30 transform active:scale-[0.99] transition flex items-center justify-center gap-2">
+            <span>ĐẶT HÀNG NGAY (MIỄN PHÍ VẬN CHUYỂN)</span>
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- POPUP THÔNG BÁO ĐẶT HÀNG THÀNH CÔNG -->
+  <div id="success-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl space-y-3">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl font-black">✓</div>
+      <h3 class="text-xl font-black text-slate-900">ĐẶT HÀNG THÀNH CÔNG!</h3>
+      <p class="text-xs text-slate-600">Cảm ơn <strong id="modal-cust-name" class="text-slate-900"></strong>! Chuyên viên sẽ gọi đến SĐT <strong id="modal-cust-phone" class="text-red-600"></strong> để xác nhận và gửi hàng ngay hôm nay.</p>
+      <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-sm transition">Đóng Lại</button>
+    </div>
+  </div>
+
+  <!-- SCRIPT XỬ LÝ HỆ THỐNG -->
+  <script>
+    // =========================================================================
+    // CẤU HÌNH HỆ THỐNG (DÀNH CHO CHỦ SHOP)
+    // =========================================================================
+    const GOOGLE_SHEET_WEBAPP_URL = "{{GOOGLE_SHEET_URL}}";
+    const TELEGRAM_BOT_TOKEN      = "{{TELEGRAM_BOT_TOKEN}}";
+    const TELEGRAM_CHAT_ID        = "{{TELEGRAM_CHAT_ID}}";
+
+    // 1. Tự động nhận diện IP khách
+    let clientIP = 'Đang lấy IP...';
+    (function fetchClientIP() {
+      fetch('https://api.ipify.org?format=json')
+        .then(r => r.json()).then(d => { if (d && d.ip) clientIP = d.ip; })
+        .catch(() => {
+          fetch('https://ipapi.co/json/').then(r => r.json()).then(d => { if (d && d.ip) clientIP = d.ip; })
+          .catch(() => { clientIP = 'Không xác định'; });
+        });
+    })();
+
+    // 2. Xử lý gửi Form Đặt Hàng
+    function handleOrderSubmit(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('btn-submit-order');
+      const originalText = submitBtn.innerHTML;
+
+      const name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const address = document.getElementById('cust-address').value.trim();
+      const note = document.getElementById('cust-note') ? document.getElementById('cust-note').value.trim() : '';
+      
+      const selectedRadio = document.querySelector('input[name="product_size"]:checked');
+      const productVal = selectedRadio ? selectedRadio.value : 'BAN_CHAY';
+      const orderTime = new Date().toLocaleString('vi-VN', { hour12: false });
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Đang ghi nhận đơn...</span>';
+
+      // A. BẮN TRỰC TIẾP VỀ TELEGRAM (0.1 GIÂY)
+      try {
+        if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID && !TELEGRAM_BOT_TOKEN.includes('{{')) {
+          const tgText = `🔔 <b>BÁO ĐƠN HÀNG MỚI!</b>\n` +
+                         `━━━━━━━━━━━━━━━━━━━━\n` +
+                         `👤 <b>Khách hàng:</b> ${name}\n` +
+                         `📞 <b>Số điện thoại:</b> ${phone}\n` +
+                         `📦 <b>Sản phẩm:</b> ${productVal}\n` +
+                         `🏠 <b>Địa chỉ:</b> ${address || 'Chưa cung cấp'}\n` +
+                         `📝 <b>Ghi chú:</b> ${note || 'Không có'}\n` +
+                         `🌐 <b>Địa chỉ IP:</b> ${clientIP}\n` +
+                         `⏰ <b>Thời gian:</b> ${orderTime}\n` +
+                         `━━━━━━━━━━━━━━━━━━━━\n` +
+                         `⚡ <i>Hãy gọi xác nhận và chốt đơn ngay!</i>`;
+
+          fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: tgText, parse_mode: 'HTML' })
+          }).catch(err => console.warn('Lỗi Telegram:', err));
+        }
+      } catch (err) {}
+
+      // B. ĐỔ ĐƠN VỀ GOOGLE SHEET
+      if (GOOGLE_SHEET_WEBAPP_URL && GOOGLE_SHEET_WEBAPP_URL.startsWith('http')) {
+        const params = new URLSearchParams();
+        params.append('time', orderTime);
+        params.append('name', name);
+        params.append('phone', phone);
+        params.append('address', address);
+        params.append('product', productVal);
+        params.append('note', note);
+        params.append('ip', clientIP);
+
+        fetch(GOOGLE_SHEET_WEBAPP_URL, { method: 'POST', body: params, mode: 'no-cors' })
+          .catch(err => console.warn('Lỗi Sheet:', err));
+      }
+
+      // C. BẮN SỰ KIỆN FACEBOOK PIXEL
+      try {
+        if (typeof fbq === 'function') {
+          fbq('track', 'CompleteRegistration', { content_name: productVal, currency: 'VND', status: true });
+          fbq('track', 'Lead', { content_name: productVal, currency: 'VND' });
+        }
+      } catch (err) {}
+
+      // D. HIỆN MODAL THÀNH CÔNG
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        document.getElementById('modal-cust-name').textContent = name;
+        document.getElementById('modal-cust-phone').textContent = phone;
+        document.getElementById('success-modal').classList.remove('hidden');
+        document.getElementById('purchase-form').reset();
+      }, 400);
+    }
+  </script>
+</body>
+</html>
